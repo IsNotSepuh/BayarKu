@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BayarKu - Pembayaran Digital</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style src="../styl.css">
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
+  <!-- Loading Screen -->
+  <div id="loading" class="fixed inset-0 bg-gray-900/95 z-50 flex flex-col items-center justify-center transition-opacity duration-500">
+    <div class="w-24 h-24 mb-6 flex items-center justify-center animate-bounce">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="w-20 h-20 stroke-purple-400">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+      </svg>
+    </div>
+    <h1 class="text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-3">BayarKu</h1>
+    <p class="text-gray-300 mb-6">Memproses pembayaran...</p>
+    <div class="w-64 h-2 bg-gray-800 rounded-full overflow-hidden">
+      <div class="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full animate-pulse"></div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div id="content" class="hidden flex-1">
+    <!-- Header -->
+    <header class="bg-gray-800 py-6 shadow-lg">
+      <div class="container mx-auto px-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center">
+            <i class="fas fa-wallet text-white text-xl"></i>
+          </div>
+          <h1 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">BayarKu</h1>
+        </div>
+        <button class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg transition">
+          <i class="fas fa-question-circle mr-2"></i>Bantuan
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Section -->
+    <main class="flex-1 container mx-auto px-4 py-8">
+      <!-- Welcome Section -->
+      <section id="welcome" class="animate-fade-in">
+        <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-8 shadow-xl border border-gray-700">
+          <div class="text-center max-w-2xl mx-auto">
+            <h2 class="text-3xl font-bold mb-4">Pembayaran Digital Mudah</h2>
+            <p class="text-gray-300 mb-8">Pilih metode pembayaran yang tersedia untuk melanjutkan transaksi Anda dengan aman dan nyaman.</p>
+            <button id="startBtn" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-all transform hover:scale-105">
+              Mulai Sekarang <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Payment Methods -->
+      <section id="paymentMethods" class="hidden mt-12">
+        <!-- E-Wallet -->
+        <div class="mb-12 animate-fade-in" style="animation-delay: 0.1s">
+          <h2 class="text-2xl font-bold mb-6 flex items-center">
+            <div class="w-8 h-8 bg-purple-600 rounded-lg flex items-center justify-center mr-3">
+              <i class="fas fa-mobile-alt text-white"></i>
+            </div>
+            Dompet Digital
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Dana -->
+            <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-blue-500 transition-all hover:shadow-lg">
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                  <i class="fas fa-money-bill-wave text-blue-600 text-xl"></i>
+                </div>
+                <h3 class="font-bold">DANA</h3>
+              </div>
+              <p class="text-gray-400 text-sm mb-4">Transfer instan ke nomor DANA</p>
+              <div class="bg-gray-900 rounded-lg p-3 mb-4 font-mono">08xxxxxxxxxx</div>
+              <button onclick="copyToClipboard('08xxxxxxxxxx')" class="w-full bg-gray-700 hover:bg-gray-600 py-2 rounded-lg transition flex items-center justify-center">
+                <i class="far fa-copy mr-2"></i> Salin Nomor
+              </button>
+            </div>
+
+            <!-- Gopay -->
+            <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-green-500 transition-all hover:shadow-lg">
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                  <i class="fab fa-google-pay text-green-600 text-xl"></i>
+                </div>
+                <h3 class="font-bold">Gopay</h3>
+              </div>
+              <p class="text-gray-400 text-sm mb-4">Bayar dengan Gopay</p>
+              <div class="bg-gray-900 rounded-lg p-3 mb-4 font-mono">08xxxxxxxxxx</div>
+              <button onclick="copyToClipboard('08xxxxxxxxxx')" class="w-full bg-gray-700 hover:bg-gray-600 py-2 rounded-lg transition flex items-center justify-center">
+                <i class="far fa-copy mr-2"></i> Salin Nomor
+              </button>
+            </div>
+
+            <!-- OVO -->
+            <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-purple-400 transition-all hover:shadow-lg">
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                  <i class="fas fa-bolt text-purple-600 text-xl"></i>
+                </div>
+                <h3 class="font-bold">OVO</h3>
+              </div>
+              <p class="text-gray-400 text-sm mb-4">Pembayaran dengan OVO</p>
+              <div class="bg-gray-900 rounded-lg p-3 mb-4 font-mono">08xxxxxxxxxx</div>
+              <button onclick="copyToClipboard('08xxxxxxxxxx')" class="w-full bg-gray-700 hover:bg-gray-600 py-2 rounded-lg transition flex items-center justify-center">
+                <i class="far fa-copy mr-2"></i> Salin Nomor
+              </button>
+            </div>
+
+            <!-- QRIS -->
+            <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-yellow-500 transition-all hover:shadow-lg">
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-3">
+                  <i class="fas fa-qrcode text-yellow-600 text-xl"></i>
+                </div>
+                <h3 class="font-bold">QRIS</h3>
+              </div>
+              <p class="text-gray-400 text-sm mb-4">Scan kode QR untuk pembayaran</p>
+              
+              <!-- QR Code Image -->
+              <div class="mb-4 p-2 bg-white rounded-lg flex justify-center cursor-zoom-in" onclick="openZoomQR()">
+                <img 
+                  src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://example.com/qris-payment/12345&color=2c7be5&bgcolor=ffffff&qzone=1" 
+                  alt="QR Code Pembayaran" 
+                  class="w-full max-w-[200px] h-auto"
+                >
+              </div>
+              
+              <button onclick="openZoomQR()" class="w-full bg-gray-700 hover:bg-gray-600 py-2 rounded-lg transition flex items-center justify-center">
+                <i class="fas fa-expand mr-2"></i> Perbesar QR Code
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bank Transfer -->
+        <div class="mb-12 animate-fade-in" style="animation-delay: 0.2s">
+          <h2 class="text-2xl font-bold mb-6 flex items-center">
+            <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center mr-3">
+              <i class="fas fa-university text-white"></i>
+            </div>
+            Transfer Bank
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- BRI -->
+            <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-blue-400 transition-all hover:shadow-lg">
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                  <i class="fas fa-landmark text-blue-600 text-xl"></i>
+                </div>
+                <h3 class="font-bold">BRI</h3>
+              </div>
+              <p class="text-gray-400 text-sm mb-4">Transfer ke rekening BRI</p>
+              <div class="bg-gray-900 rounded-lg p-3 mb-4 font-mono">112085158163940</div>
+              <button onclick="copyToClipboard('112085158163940')" class="w-full bg-gray-700 hover:bg-gray-600 py-2 rounded-lg transition flex items-center justify-center">
+                <i class="far fa-copy mr-2"></i> Salin Nomor
+              </button>
+            </div>
+
+            <!-- BNI -->
+            <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-yellow-400 transition-all hover:shadow-lg">
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-3">
+                  <i class="fas fa-piggy-bank text-yellow-600 text-xl"></i>
+                </div>
+                <h3 class="font-bold">BNI</h3>
+              </div>
+              <p class="text-gray-400 text-sm mb-4">Transfer ke rekening BNI</p>
+              <div class="bg-gray-900 rounded-lg p-3 mb-4 font-mono">8807085158163940</div>
+              <button onclick="copyToClipboard('8807085158163940')" class="w-full bg-gray-700 hover:bg-gray-600 py-2 rounded-lg transition flex items-center justify-center">
+                <i class="far fa-copy mr-2"></i> Salin Nomor
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Donation -->
+        <div class="animate-fade-in" style="animation-delay: 0.3s">
+          <h2 class="text-2xl font-bold mb-6 flex items-center">
+            <div class="w-8 h-8 bg-pink-600 rounded-lg flex items-center justify-center mr-3">
+              <i class="fas fa-heart text-white"></i>
+            </div>
+            Dukungan
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <!-- Trakteer -->
+            <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-red-400 transition-all hover:shadow-lg">
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mr-3">
+                  <i class="fas fa-coffee text-red-600 text-xl"></i>
+                </div>
+                <h3 class="font-bold">Trakteer</h3>
+              </div>
+              <p class="text-gray-400 text-sm mb-4">Traktir saya kopi untuk dukungan</p>
+              <button onclick="openLink('https://trakteer.id')" class="w-full bg-gray-700 hover:bg-gray-600 py-2 rounded-lg transition flex items-center justify-center">
+                <i class="fas fa-external-link-alt mr-2"></i> Kunjungi
+              </button>
+            </div>
+
+            <!-- Saweria -->
+            <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-orange-400 transition-all hover:shadow-lg">
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mr-3">
+                  <i class="fas fa-hand-holding-usd text-orange-600 text-xl"></i>
+                </div>
+                <h3 class="font-bold">Saweria</h3>
+              </div>
+              <p class="text-gray-400 text-sm mb-4">Dukung saya melalui Saweria</p>
+              <button onclick="openLink('https://saweria.co')" class="w-full bg-gray-700 hover:bg-gray-600 py-2 rounded-lg transition flex items-center justify-center">
+                <i class="fas fa-external-link-alt mr-2"></i> Kunjungi
+              </button>
+            </div>
+
+            <!-- Buy Me A Coffee -->
+            <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-yellow-400 transition-all hover:shadow-lg">
+              <div class="flex items-center mb-4">
+                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mr-3">
+                  <i class="fas fa-mug-hot text-yellow-600 text-xl"></i>
+                </div>
+                <h3 class="font-bold">Buy Me A Coffee</h3>
+              </div>
+              <p class="text-gray-400 text-sm mb-4">Beli saya kopi virtual</p>
+              <button onclick="openLink('https://buymeacoffee.com')" class="w-full bg-gray-700 hover:bg-gray-600 py-2 rounded-lg transition flex items-center justify-center">
+                <i class="fas fa-external-link-alt mr-2"></i> Kunjungi
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer with Animated Waves -->
+    <footer class="low-poly bg-gray-800 pt-12 pb-6 mt-12 relative">
+      
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="mb-6 md:mb-0">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center">
+                <i class="fas fa-wallet text-white text-xl"></i>
+              </div>
+              <h2 class="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">BayarKu</h2>
+            </div>
+            <p class="text-gray-400 mt-2">Solusi pembayaran digital mudah</p>
+          </div>
+          <div class="flex space-x-4">
+            <a href="https://wa.me/6285158163940" class="w-12 h-12 bg-gray-700 hover:bg-green-600 rounded-full flex items-center justify-center transition">
+              <i class="fab fa-whatsapp text-xl"></i>
+            </a>
+            <a href="mailto:ghost4indo@gmail.co" class="w-12 h-12 bg-gray-700 hover:bg-red-500 rounded-full flex items-center justify-center transition">
+              <i class="fas fa-envelope text-xl"></i>
+            </a>
+          </div>
+        </div>
+        <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+          <p>© 2025 BayarKu. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- QR Zoom Modal -->
+  <div id="qrModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 modal-backdrop">
+    <div class="modal-content bg-gray-800 rounded-xl p-6 max-w-md w-full border border-gray-700 shadow-2xl relative">
+      <button onclick="closeZoomQR()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+      <h3 class="text-xl font-bold mb-4 flex items-center">
+        <i class="fas fa-qrcode text-yellow-500 mr-2"></i> QRIS Pembayaran
+      </h3>
+      <div class="p-4 bg-white rounded-lg mb-4 flex justify-center">
+        <img 
+          src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=https://example.com/qris-payment/12345&color=2c7be5&bgcolor=ffffff&qzone=1" 
+          alt="Zoomed QR Code" 
+          class="w-full max-w-xs h-auto"
+        >
+      </div>
+      <p class="text-gray-400 text-sm mb-4 text-center">
+        Scan QR code di atas menggunakan aplikasi mobile banking atau e-wallet Anda
+      </p>
+      <button onclick="closeZoomQR()" class="w-full bg-gray-700 hover:bg-gray-600 py-2 rounded-lg transition">
+        Tutup
+      </button>
+    </div>
+  </div>
+
+  <!-- Notification -->
+  <div id="notification" class="fixed bottom-4 right-4 bg-purple-600 text-white px-6 py-3 rounded-lg shadow-lg hidden items-center">
+    <i class="fas fa-check-circle mr-2"></i>
+    <span id="notificationText"></span>
+  </div>
+
+  <script src="../app.js"></script> 
+</body>
+</html>
