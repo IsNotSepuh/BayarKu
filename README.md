@@ -16,9 +16,11 @@ Setelah pembayaran dilakukan, pengguna dapat langsung mengonfirmasi melalui What
 
 ## 📂 Struktur Folder
 
-├── index.html # Halaman utama
-├── style.css # Styling
-├── script.js # Logika sederhana
+├── index.html # halaman utama
+├── style.css # stylenye
+
+├── script.js # js simple
+
 └── README.md # Dokumentasi proyek
 
 ## 📞 Kontak
